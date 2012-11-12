@@ -43,7 +43,7 @@ load_system:
 	mov dh,0					;head_num=0 , drive letter
 	mov cl,2					;section_num=2 @dkni question mark
 	mov ax,es
-	mov ah,0x02				;ah-0x02, read disk
+	mov ah,0x02				;ah=0x02, read disk
 	mov al,1					;17 sector				
 	mov bx,0					;ES:BX = data buffer addr
 	int 0x13
