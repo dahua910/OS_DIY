@@ -1,7 +1,34 @@
+
 org 0x7c00		;start from 0x7c00 @dkni question mark
+	jmp LABEL_START
+	nop							; nop required 
+
+	BS_OEMName:		DB	"dongkang"		; OEM String, 8 bytes required 
+	BPB_BytsPerSec:		DW	512			; Bytes per sector 
+	BPB_SecPerCluster:	DB	1			; Sector per cluster 
+	BPB_ResvdSecCnt:	DW	1			; Reserved sector count 
+	BPB_NumFATs:		DB	2			; Number of FATs 
+	BPB_RootEntCnt:		DW	224			; Root entries count 
+	BPB_TotSec16:		DW	2880			; Total sector number 
+	BPB_Media:		DB	0xf0			; Media descriptor 
+	BPB_FATSz16:		DW	9			; FAT size(sectors) 
+	BPB_SecPerTrk:		DW	18			; Sector per track 
+	BPB_NumHeads:		DW	2			; Number of magnetic heads 
+	BPB_HiddSec:		DD	0			; Number of hidden sectors 
+	BPB_TotSec32:		DD	0			; If TotSec16 equal 0, this works 
+	BS_DrvNum:		DB	0			; Driver number of interrupt 13 
+	BS_Reserved1:		DB	0			; Reserved 
+	BS_BootSig:		DB	0x29			; Boot signal 
+	BS_VolID:		DD	0			; Volume ID 
+	BS_VolLab:		DB	"dongkang ni"		; Volume label, 11 bytes required 
+	BS_FileSysType:		DB	"FAT12 "		; File system type, 8 bytes required 
+
+LABEL_START:	
 	mov ax,cs   	;
 	mov ds,ax   
 	mov es,ax
+	call PrintStr
+	jmp	$
 
 ;call bios interrupt            
 ;display string(int=0x10, ah=10)
@@ -14,14 +41,15 @@ org 0x7c00		;start from 0x7c00 @dkni question mark
 ;	mov ax,0x0600
 ;	int 0x10
    
-;PrintStr:   
+PrintStr:   
 	mov ax,Hello		
 	mov bp,ax         
 	mov cx,18					;srting_len
 	mov ax,0x1301   
-	mov bx,0xc    		;string type
+	mov bx,0xd    		;string type
 	mov dl,0        
-	int 0x10		 
+	int 0x10
+	ret		 
 
 ;read disk(int=0x13, ah=0x02)
 ;al = section_total_num      
@@ -51,4 +79,3 @@ load_system:
 Hello: db "hello dk's DIY_os"  
 times 510-($-$$) db 0   
 dw 0xaa55
-jmp $ 
