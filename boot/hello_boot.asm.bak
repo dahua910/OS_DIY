@@ -44,7 +44,7 @@ LABEL_START:
 	;call Floopy_reset
 	call Print_hello
 	call Print_find_loader
-	;call Print_no_loader
+	call Print_no_loader
 	;call Floopy_reset	 
 	mov	word [wSectorNo], SectorNoOfRootDirectory
 	call LABEL_SEARCH_IN_ROOT_DIR_BEGIN
