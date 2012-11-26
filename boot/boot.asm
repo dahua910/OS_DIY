@@ -96,7 +96,7 @@ LABEL_GO_ON:
 
 LABEL_DIFFERENT:
 	and	di, 0xFFE0		; Go to head of this entry 
-	add	di, 0x20			;
+	add	di, 0x20		;
 	mov	si, LoaderFileName	; next entry, di += 20h  
 	jmp	LABEL_SEARCH_FOR_LOADERBIN; 
 
@@ -106,7 +106,7 @@ LABEL_GOTO_NEXT_SECTOR_IN_ROOT_DIR:
 
 LABEL_NO_LOADERBIN:
 	mov	si, MsgNoLoader
-	call	DisplayMessage			; display string
+	call	DisplayMessage		; display string
 	jmp	$			; no LOADER.BIN, infinite loop
 
 LABEL_FILENAME_FOUND:			; LOADER.BIN was found
@@ -116,7 +116,7 @@ LABEL_FILENAME_FOUND:			; LOADER.BIN was found
 	mov	cx, word [es:di]
 	push	cx			; Save index of this sector in FAT
 	add	cx, ax
-	add	cx, DeltaSectorNo	; LOADER.BIN��s start sector saved in cl
+	add	cx, DeltaSectorNo	; LOADER.BIN’s start sector saved in cl
 	mov	ax, BaseOfLoader
 	mov	es, ax			; es <- BaseOfLoader
 	mov	bx, OffsetOfLoader	; bx <- OffsetOfLoader	es:bx = BaseOfLoader:OffsetOfLoader = BaseOfLoader * 10h + OffsetOfLoader
@@ -150,7 +150,7 @@ LABEL_FILE_LOADED:
 	call	DisplayMessage			
 
 ; *****************************************************************************************************
-	jmp	BaseOfLoader:OffsetOfLoader	; Jump to LOADER.BIN��s start address in memory.
+	jmp	BaseOfLoader:OffsetOfLoader	; Jump to LOADER.BIN’s start address in memory.
 
 ; *****************************************************************************************************
 
@@ -185,7 +185,7 @@ ReadSector:
 	mov	ch, al			; ch <- Cylinder number(y>>1)
 	and	dh, 1			; dh & 1 = Magnetic header(y&1)
 	pop	bx			; restore bx
-	;Now, we got cylinder number in %ch, start sector number in %cl, magnetic header in %dh 
+	;Now, we got cylinder number in ch, start sector number in cl, magnetic header in dh 
 	mov	dl, [BS_DrvNum]		; driver 0
 .GoOnReading:
 	mov	ah, 2			; read
