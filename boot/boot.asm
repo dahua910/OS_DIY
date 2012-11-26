@@ -116,7 +116,7 @@ LABEL_FILENAME_FOUND:			; LOADER.BIN was found
 	mov	cx, word [es:di]
 	push	cx			; Save index of this sector in FAT
 	add	cx, ax
-	add	cx, DeltaSectorNo	; LOADER.BIN’s start sector saved in cl
+	add	cx, DeltaSectorNo	; LOADER.BIN's start sector saved in cl
 	mov	ax, BaseOfLoader
 	mov	es, ax			; es <- BaseOfLoader
 	mov	bx, OffsetOfLoader	; bx <- OffsetOfLoader	es:bx = BaseOfLoader:OffsetOfLoader = BaseOfLoader * 10h + OffsetOfLoader
@@ -150,7 +150,7 @@ LABEL_FILE_LOADED:
 	call	DisplayMessage			
 
 ; *****************************************************************************************************
-	jmp	BaseOfLoader:OffsetOfLoader	; Jump to LOADER.BIN’s start address in memory.
+	jmp	BaseOfLoader:OffsetOfLoader	; Jump to LOADER.BIN's start address in memory.
 
 ; *****************************************************************************************************
 
