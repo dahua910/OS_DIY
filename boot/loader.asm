@@ -1,4 +1,3 @@
-
 BaseOfStack	equ	0100h
 ;--------------------------------------
 
@@ -9,10 +8,10 @@ org	0100h
 ;-------------------------------------------------
 [SECTION .gdt]
 ; GDT
-;                              base,       limit,         attr
-LABEL_GDT:	   Descriptor       0,                0, 0           ; empty descriptor
-LABEL_DESC_CODE32: Descriptor       0, SegCode32Len - 1, DA_C + DA_32; 
-LABEL_DESC_VIDEO:  Descriptor 0B8000h,           0ffffh, DA_DRW	     ; 
+;                                base,            limit,         attr
+LABEL_GDT:	   Descriptor       0,                0, 0           	; empty descriptor
+LABEL_DESC_CODE32: Descriptor       0, SegCode32Len - 1, DA_C + DA_32	; 
+LABEL_DESC_VIDEO:  Descriptor 0B8000h,           0ffffh, DA_DRW	     	; 
 ; GDT end	
 ;-------------------------------------------------	
 	GdtLen		equ	$ - LABEL_GDT	; GDT lenght
@@ -85,7 +84,7 @@ DisplayMessage:
 ;------------------------------------------------------
 
 ;------------------------------------------------------------------	
-	MsgLoader		db	"Here is Loader! :)", 0x0D, 0x0A, 0x00
+	MsgLoader	db	"Here is Loader! :)", 0x0D, 0x0A, 0x00
 	MsgProtect	db	"HERE is protect mode :)", 0x0D, 0x0A, 0x00
 ;------------------------------------------------------------------
 
@@ -102,7 +101,7 @@ LABEL_SEG_CODE32:
 	mov	[gs:edi], ax
 	jmp	$
 	mov	esi, MsgProtect
-	call DisplayMessage
+	call	DisplayMessage
 
 	; Stop here, infinite loop
 	jmp	$
