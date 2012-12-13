@@ -1,11 +1,8 @@
-	Base0fStack		equ	0x7c00
-	BaseOfLoader		equ	0x9000
-	OffsetOfLoader		equ	0x100
-	RootDirSectors		equ	14
-	DeltaSectorNo		equ	17	; DeltaSectorNo = BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) - 2
-	SectorNoOfFAT1		equ	1	; first sector of FAT1= BPB_RsvdSecCnt
-		
-	SectorNoOfRootDirectory	equ	19	; first sector of root dir
+%include	"boot.inc"
+
+Base0fStack		equ	0x7c00
+BaseOfLoader		equ	0x9000
+OffsetOfLoader		equ	0x100
 ;------------------------------------------------------
 
 [BITS 16]
@@ -157,18 +154,6 @@ LABEL_FILE_LOADED:
 
 
 ;------------------------------------------------------
-DisplayMessage:
-	lodsb			; load next character
-	or	al, al		; test for NUL character
-	jz	.DONE
-	mov	ah, 0x0E	; BIOS teletype
-	mov	bh, 0x00	; display page 0
-	mov	bl, 0x07	; text attribute
-	int	0x10		; invoke BIOS
-	jmp	DisplayMessage
-.DONE:
-	ret
-;------------------------------------------------------
 ReadSector:
 	push	bp
 	mov	bp, sp
@@ -232,12 +217,24 @@ LABEL_EVEN:
 	jnz	LABEL_EVEN_2
 	shr	ax, 4
 LABEL_EVEN_2:
-	and	ax, 0FFFh
+	and	ax, 0xFFF
 
 LABEL_GET_FAT_ENRY_OK:
 
 	pop	bx
 	pop	es
+	ret
+;------------------------------------------------------
+DisplayMessage:
+	lodsb			; load next character
+	or	al, al		; test for NUL character
+	jz	.DONE
+	mov	ah, 0x0E	; BIOS teletype
+	mov	bh, 0x00	; display page 0
+	mov	bl, 0x07	; text attribute
+	int	0x10		; invoke BIOS
+	jmp	DisplayMessage
+.DONE:
 	ret
 ;--------------------------------------------------------
 wRootDirSizeForLoop	dw	RootDirSectors	; Root Directory number, dec to 0
